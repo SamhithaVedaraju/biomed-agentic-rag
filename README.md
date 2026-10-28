@@ -46,14 +46,21 @@ flowchart LR
 
 ### Retrieval ablation (no LLM calls)
 
-*Pending first run.*
+Setup: 500 PubMedQA questions; corpus of 10,000 abstracts (17,117 chunks) in which each question's source abstract is mixed with 9,000 distractors. Embeddings: `bge-small-en-v1.5`. Re-ranker: `ms-marco-MiniLM-L-6-v2`. Hardware: laptop CPU (i7-1355U). Raw output: [`artifacts/results/retrieval-pubmedqa-bge-small-en-v1.5.json`](artifacts/results/retrieval-pubmedqa-bge-small-en-v1.5.json).
 
 | Retriever | Recall@5 | MRR@10 | nDCG@10 | p50 latency |
 |---|---|---|---|---|
-| BM25 | | | | |
-| Dense | | | | |
-| Hybrid (RRF) | | | | |
-| Hybrid + re-rank | | | | |
+| BM25 | 0.936 | 0.878 | 0.896 | 74 ms |
+| BM25 + re-rank | 0.960 | 0.942 | 0.949 | 1.9 s |
+| Dense | **0.974** | **0.956** | **0.962** | 110 ms |
+| Dense + re-rank | **0.976** | 0.953 | 0.959 | 2.1 s |
+| Hybrid (RRF) | 0.974 | 0.932 | 0.943 | 264 ms |
+| Hybrid + re-rank | 0.974 | 0.952 | 0.959 | 2.8 s |
+
+**What this shows:**
+
+- **Dense retrieval wins on PubMedQA.** Hybrid fusion lowers MRR from 0.956 to 0.932: BM25's weaker ranking pulls the fused list down. PubMedQA questions were written from their source abstracts, so they share vocabulary and meaning with them, which favors dense search.
+- **The general-domain re-ranker helps BM25 (+0.064 MRR) but not dense retrieval,** and it costs about 2 s per query on CPU. Next experiments: a biomedical re-ranker, and the harder BioASQ questions, where exact matching of gene and drug names should give BM25 and hybrid search more to contribute.
 
 ### How the metrics are defined
 

@@ -123,6 +123,9 @@ def summarize(records: list[Record]) -> dict[str, dict[str, float]]:
             # Errors count as wrong answers so a fragile system cannot look better by failing.
             "accuracy": mean([float(r.correct) for r in rs]),
             "answers_with_hallucination": mean([float(r.n_unsupported > 0) for r in ok]),
+            # Answers with no claims have nothing to verify; reported so they can't pass as
+            # "hallucination-free".
+            "answers_without_claims": mean([float(r.n_claims == 0) for r in ok]),
             "unsupported_per_100_claims": 100 * sum(r.n_unsupported for r in ok) / claims
             if claims
             else 0.0,
@@ -137,7 +140,7 @@ def summarize(records: list[Record]) -> dict[str, dict[str, float]]:
 
 
 def to_markdown(summary: dict[str, dict[str, float]]) -> str:
-    cols = ["n", "errors", "accuracy", "answers_with_hallucination",
+    cols = ["n", "errors", "accuracy", "answers_with_hallucination", "answers_without_claims",
             "unsupported_per_100_claims", "recall@5", "mrr", "ndcg@10", "mean_latency_s"]
     lines = ["| system | " + " | ".join(cols) + " |", "|---" * (len(cols) + 1) + "|"]
     for system, row in summary.items():

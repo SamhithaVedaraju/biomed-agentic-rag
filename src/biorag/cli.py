@@ -164,6 +164,7 @@ def bench_retrieval(
     dataset: str = "pubmedqa",
     bioasq_path: Path | None = None,
     limit: int = 500,
+    out: Path = Path("artifacts/results"),
 ) -> None:
     """Free retrieval benchmark: sparse vs dense vs hybrid, with and without re-ranking."""
     from biorag.eval.retrieval_bench import bench
@@ -177,8 +178,13 @@ def bench_retrieval(
             name = f"{mode}{'+rerank' if rerank else ''}"
             typer.echo(f"Running {name}...")
             results[name] = bench(HybridRetriever(s, mode=mode, rerank=rerank), examples)
-    typer.echo(json.dumps({"embedding": s.embedding_model, "n": len(examples),
-                           "results": results}, indent=2))
+    report = json.dumps({"dataset": dataset, "embedding": s.embedding_model,
+                         "reranker": s.reranker_model, "n": len(examples),
+                         "results": results}, indent=2)
+    out.mkdir(parents=True, exist_ok=True)
+    path = out / f"retrieval-{dataset}-{s.embedding_model.split('/')[-1]}.json"
+    path.write_text(report)
+    typer.echo(report + f"\nSaved to {path}")
 
 
 @app.command()

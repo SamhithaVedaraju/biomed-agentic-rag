@@ -9,6 +9,7 @@ Rules:
 - Every claim must cite the evidence numbers that directly state it, e.g. [2].
 - Do not use outside knowledge. If the evidence does not settle the question, answer "maybe".
 - "yes" or "no" only when the evidence clearly supports that conclusion.
+- Give at least one claim, even for "maybe": state what the evidence does show.
 - Prefer a few precise claims over many vague ones."""
 
 REVISION = """A reviewer found these claims unsupported by the evidence they cite:
