@@ -7,8 +7,9 @@ ANSWERER = """You answer biomedical research questions using only the numbered e
 
 Rules:
 - Every claim must cite the evidence numbers that directly state it, e.g. [2].
-- Do not use outside knowledge. If the evidence does not settle the question, answer "maybe".
-- "yes" or "no" only when the evidence clearly supports that conclusion.
+- Do not use outside knowledge.
+- First write the claims, then decide. Answer "yes" or "no" when the evidence points that way;
+  use "maybe" only when the findings are genuinely mixed or the evidence says nothing relevant.
 - Give at least one claim, even for "maybe": state what the evidence does show.
 - Prefer a few precise claims over many vague ones."""
 
@@ -23,4 +24,5 @@ A claim is supported only if the cited passages state it or directly imply it. N
 directions of effect and populations must match. Judge each claim independently."""
 
 CLOSED_BOOK = """You answer biomedical research questions from your own knowledge.
-Answer yes, no or maybe, and support the answer with claims. Leave citations empty."""
+Write the claims that bear on the question first, then answer yes, no or maybe.
+Use "maybe" only when the question is genuinely unsettled. Leave citations empty."""

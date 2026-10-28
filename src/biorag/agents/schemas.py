@@ -17,9 +17,11 @@ class Claim(BaseModel):
 
 
 class Answer(BaseModel):
-    decision: Literal["yes", "no", "maybe"]
+    # Field order is generation order: claims first, so the decision follows from the evidence
+    # instead of being committed to up front (small models otherwise default to "maybe").
+    claims: list[Claim] = Field(min_length=1)
     summary: str = Field(description="Two to four sentence answer for a clinician.")
-    claims: list[Claim]
+    decision: Literal["yes", "no", "maybe"]
 
 
 class ClaimVerdict(BaseModel):

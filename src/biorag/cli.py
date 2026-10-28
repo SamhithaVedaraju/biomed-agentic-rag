@@ -24,6 +24,16 @@ def _ncbi() -> tuple[str, str | None]:
     return email, os.environ.get("NCBI_API_KEY") or None
 
 
+def _prevent_sleep() -> None:
+    """Keep Windows from idle-sleeping while this process runs (long local-model evals).
+    Released automatically when the process exits; a closed lid still sleeps."""
+    if os.name == "nt":
+        import ctypes
+
+        es_continuous, es_system_required = 0x80000000, 0x00000001
+        ctypes.windll.kernel32.SetThreadExecutionState(es_continuous | es_system_required)
+
+
 def _examples(dataset: str, bioasq_path: Path | None, limit: int | None):
     if dataset == "pubmedqa":
         from biorag.data.pubmedqa import load_questions
@@ -132,6 +142,7 @@ def run_eval(
     """Compare closed-book, naive RAG and agentic RAG (with the claude backend this costs money)."""
     from biorag.eval.run import evaluate_example, to_markdown, write_results
 
+    _prevent_sleep()
     _, llm, judge, retriever = _pipeline()
     gold_chunks = defaultdict(list)
     for chunk in retriever.chunks.values():
