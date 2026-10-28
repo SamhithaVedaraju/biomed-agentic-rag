@@ -29,7 +29,7 @@ dependencies = [
 
 [project.optional-dependencies]
 ui = ["streamlit>=1.36"]
-dev = ["pytest>=8", "ruff>=0.5"]
+dev = ["pytest>=8", "ruff==0.17.3"]
 
 [project.scripts]
 biorag = "biorag.cli:app"
@@ -41,8 +41,13 @@ where = ["src"]
 line-length = 100
 target-version = "py311"
 
+src = ["src", "tests"]
+
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["biorag"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
