@@ -9,7 +9,7 @@ class Settings(BaseSettings):
 
     # "ollama" (free, local) or "claude" (Anthropic API, needs ANTHROPIC_API_KEY)
     llm_backend: str = "ollama"
-    ollama_model: str = "qwen2.5:3b"
+    ollama_model: str = "qwen2.5:7b"
     ollama_judge_model: str | None = None  # defaults to ollama_model
     ollama_url: str = "http://localhost:11434"
 

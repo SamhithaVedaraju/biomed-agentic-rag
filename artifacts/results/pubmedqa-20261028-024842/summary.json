@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "dataset": "pubmedqa",
+    "n_questions": 20,
+    "backend": "ollama",
+    "generator": "qwen2.5:7b",
+    "judge": "qwen2.5:7b",
+    "embedding": "BAAI/bge-small-en-v1.5",
+    "reranker": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+    "tokens": {
+      "generator": {
+        "input_tokens": 83596,
+        "output_tokens": 11198,
+        "calls": 85
+      },
+      "judge": {
+        "input_tokens": 60000,
+        "output_tokens": 12907,
+        "calls": 85
+      }
+    }
+  },
+  "summary": {
+    "closed_book": {
+      "n": 20,
+      "errors": 0,
+      "accuracy": 0.4,
+      "answers_with_hallucination": 0.95,
+      "answers_without_claims": 0.0,
+      "unsupported_per_100_claims": 48.38709677419355,
+      "mean_latency_s": 44.18461450499599
+    },
+    "naive_rag": {
+      "n": 20,
+      "errors": 0,
+      "accuracy": 0.55,
+      "answers_with_hallucination": 0.15,
+      "answers_without_claims": 0.0,
+      "unsupported_per_100_claims": 13.043478260869565,
+      "mean_latency_s": 134.6664732049976,
+      "recall@5": 0.95,
+      "mrr": 0.925,
+      "ndcg@10": 0.9315464876785728
+    },
+    "agentic_rag": {
+      "n": 20,
+      "errors": 0,
+      "accuracy": 0.6,
+      "answers_with_hallucination": 0.15,
+      "answers_without_claims": 0.0,
+      "unsupported_per_100_claims": 19.35483870967742,
+      "mean_latency_s": 272.47632333498916,
+      "recall@5": 0.95,
+      "mrr": 0.95,
+      "ndcg@10": 0.95
+    }
+  }
+}
