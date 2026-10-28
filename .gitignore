@@ -1,0 +1,13 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Generated data and indexes (rebuild with `biorag build-index`)
+data/
+artifacts/*
+!artifacts/.gitkeep
+!artifacts/results/
